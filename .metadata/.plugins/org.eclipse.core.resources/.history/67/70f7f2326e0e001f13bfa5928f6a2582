@@ -1,0 +1,312 @@
+package P1Lab1LombeidaAna;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class main {
+
+	 // Variables globales para almacenar datos de las opciones 1 y 2
+    private static int cantidad;
+ 
+    private static String[] nombres;
+    private static String[] nombresAscendente;
+    private static String[] nombresDescendente;
+    private static MedicoVeterinario[] veterinarios;
+
+     
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		  Scanner scanner = new Scanner(System.in);
+	        int menuOp = 0;
+
+	        do {
+	            System.out.println("==============================================");
+	            System.out.println("MENU DE OPCIONES");
+	            System.out.println("1. INGRESAR DATOS Y APLICAR FORMULAS DEL IVA");
+	            System.out.println("2. INGRESAR ARREGLOS DE NOMBRES Y ORDENAR");
+	            System.out.println("3. GUARDAR INFORMACION EN UN ARCHIVO");
+	            System.out.println("4. SALIR");
+	            System.out.println("INGRESA UNA OPCION");
+	            System.out.println("==============================================");
+	            menuOp = scanner.nextInt();
+
+	            switch (menuOp) {
+	                case 1:
+	                	RegristroMedicos();
+	                	//DatosAnimales();
+	                	//programarCitasMedicas();
+	                    break;
+
+	                case 2:
+	                	ArreglosNombres();
+
+	                    break;
+
+	                case 3:
+	                    System.out.println("3. GUARDAR INFORMACION EN UN ARCHIVO TXT");
+	                    guardarInformacionTXT();
+	                    break;
+
+	                case 4:
+	                    System.out.println("4. MUCHASD GRACIAS, QUE TENGA UN BUEN DIA ");
+	                    break;
+
+	                default:
+	                    System.out.println("OPCION INGRESADA ES INCORRECTA, VUELVA A INGRESAR UNA DENTRO DEL RANGO");
+	            }
+
+	        } while (menuOp != 5);
+
+	    }
+		
+	
+    // Métodos de ordenamiento burbuja en orden ascendente y descendente
+    public static void ordenarNombresAscendente(String[] nombres) {
+        int cantidad = nombres.length;
+        for (int i = 0; i < cantidad - 1; i++) {
+            for (int j = 0; j < cantidad - i - 1; j++) {
+                if (nombres[j].compareTo(nombres[j + 1]) > 0) {
+                    // Intercambiar nombres[j] y nombres[j + 1]
+                    String temp = nombres[j];
+                    nombres[j] = nombres[j + 1];
+                    nombres[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    public static void ordenarNombresDescendente(String[] nombres) {
+        int cantidad = nombres.length;
+        for (int i = 0; i < cantidad - 1; i++) {
+            for (int j = 0; j < cantidad - i - 1; j++) {
+                if (nombres[j].compareTo(nombres[j + 1]) < 0) {
+                    // Intercambiar nombres[j] y nombres[j + 1]
+                    String temp = nombres[j];
+                    nombres[j] = nombres[j + 1];
+                    nombres[j + 1] = temp;
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+////////METODO PARA EL ARREGLO DE NOMBRES 
+    
+    public static void ArreglosNombres() {
+        Scanner scanner = new Scanner(System.in);
+
+        do {
+            System.out.println("INGRESA LA CANTIDAD DE NOMBRES A INGRESAR");
+            cantidad = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el buffer de entrada
+            if (cantidad <= 0 || cantidad >= 10) {
+                System.out.println("Cantidad no válida. Intente nuevamente.");
+            }
+        } while (cantidad <= 0 || cantidad >= 10);
+
+        // Inicializar el arreglo de nombres
+        nombres = new String[cantidad];
+
+        // Llenar el arreglo de nombres
+        for (int i = 0; i < cantidad; i++) {
+            System.out.println("INGRESE EL NOMBRE " + (i + 1) + ": ");
+            nombres[i] = scanner.nextLine();
+        }
+
+        // Ordenar los nombres en orden ascendente y crear nombresAscendente
+        ordenarNombresAscendente(nombres);
+        nombresAscendente = Arrays.copyOf(nombres, nombres.length);
+
+        // Ordenar los nombres en orden descendente y crear nombresDescendente
+        ordenarNombresDescendente(nombres);
+        nombresDescendente = Arrays.copyOf(nombres, nombres.length);
+
+        // Mostrar los nombres ordenados de forma ascendente y descendente
+        System.out.println("\nNombres ordenados en forma ascendente:");
+        for (String nombre : nombresAscendente) {
+            System.out.println(nombre);
+        }
+
+        System.out.println("\nNombres ordenados en forma descendente:");
+        for (String nombre : nombresDescendente) {
+            System.out.println(nombre);
+        }
+    }
+
+
+
+public static void RegristroMedicos(){
+    Scanner scanner = new Scanner (System.in);
+    int CantMedicos;
+        // Solicita la cantidad de médicos veterinarios hasta que se ingrese un numero valido
+        do {
+            System.out.println("INGRESA LA CANTIDAD DE MEDICOS VETERINARIOS A INGRESAR (máximo 10):");
+            CantMedicos = scanner.nextInt();
+             scanner.nextLine();
+            if (CantMedicos <=0 || CantMedicos > 10) {
+                System.out.println("ERROR:LA CANTIDAD DEBE DE ESTAR ENTRE (0-10)INTENTE NUEVAMENTE.");
+            }
+        } while (CantMedicos <=0 || CantMedicos > 10);
+
+        // Inicializa el arreglo de médicos veterinarios con la cantidad especificada
+        MedicoVeterinario[] veterinarios = new MedicoVeterinario[CantMedicos];
+
+        // Pide la información de cada médico veterinario
+        for (int i = 0; i < CantMedicos; i++) {
+            System.out.println("=========================================================");
+            System.out.println("\nINGRESE LOS DATOS DEL MEDICO VETERINARIO " + (i + 1) + ":");
+            System.out.println("=========================================================");
+
+            /////////DATOS DEL MEDICO
+            System.out.print("INGRESE EL NOMBRE : ");
+            String nombre = scanner.next();
+            System.out.print("INGRESE EL APELIIDO : ");
+            String apellido = scanner.next();
+            int edad;
+            do {
+                System.out.print("INGRESE LA EDAD (debe ser mayor a 18  y estar en el rango de 50 años): ");
+                edad = scanner.nextInt();
+                if (edad <= 18||edad>=50) {
+                    System.out.println("ERROR: La EDAD DEBE SER MAYOR A 18. INTENTE DE NUEVO.");
+                }
+            } while (edad <= 18||edad>=50);
+
+            System.out.print("INGRESE LA ESPECIALIDAD: ");
+            String especialidad = scanner.next();
+            // Valida que el sexo sea 'M' para masculino o 'F' para femenino
+            String sexo;
+            do {
+                System.out.print("INGRESE EL SEXO (M para masculino, F para femenino): ");
+                sexo = scanner.next().toUpperCase();
+                if (!sexo.equals("M") && !sexo.equals("F")) {
+                    System.out.println("ERROR: INGRESE 'M' PARA MASCULINO O 'F' PARA FEMENINO. INTENTA NUEVAMENTE.");
+                }
+            } while (!sexo.equals("M") && !sexo.equals("F"));
+
+            // Crea un objeto MedicoVeterinario con los datos ingresados
+            veterinarios[i] = new MedicoVeterinario(nombre, apellido, edad, especialidad, sexo);
+        }
+
+        // MUESTRA LOS DATOS DEL MEDICO VETERINARIO
+        System.out.println("\n=============================================:");
+        System.out.println("\nDATOS DE LOS MEDICOS REGISTRADOS             :");
+        System.out.println("\n=============================================:");
+        for (int i = 0; i < CantMedicos; i++) {
+            System.out.println("\nMEDICOS VETERINARIOS" + (i + 1) + ":");
+            veterinarios[i].mostrarDatos();
+        }
+    
+    }
+    
+ 
+ 
+public static void guardarInformacionTXT() {
+    try (FileWriter writer = new FileWriter("informacion.txt")) {
+        // Verifica si nombresAscendente es null antes de acceder a él
+        if (nombresAscendente != null) {
+            writer.write("Nombres en orden ascendente:\n");
+            for (String nombre : nombresAscendente) {
+                writer.write(nombre + "\n");
+            }
+        } else {
+            writer.write("No hay nombres en orden ascendente.\n");
+        }
+
+        // Verifica si nombresDescendente es null antes de acceder a él
+        if (nombresDescendente != null) {
+            writer.write("\nNombres en orden descendente:\n");
+            for (String nombre : nombresDescendente) {
+                writer.write(nombre + "\n");
+            }
+        } else {
+            writer.write("No hay nombres en orden descendente.\n");
+        }
+
+        // Guardar información de los médicos veterinarios de la opción 1
+        if (veterinarios != null) {
+            writer.write("\nMédicos veterinarios:\n");
+            for (MedicoVeterinario medico : veterinarios) {
+                writer.write(String.format("Nombre: %s, Apellido: %s, Edad: %d, Especialidad: %s, Sexo: %s\n",
+                        medico.getNombre(), medico.getApellido(), medico.getEdad(),
+                        medico.getEspecialidad(), medico.getSexo()));
+            }
+        } else {
+            writer.write("\nNo hay médicos veterinarios registrados.\n");
+        }
+
+        System.out.println("La información se ha guardado correctamente en 'informacion.txt'.");
+    } catch (IOException e) {
+        System.out.println("Error al guardar la información: " + e.getMessage());
+    }
+}
+
+
+
+
+class MedicoVeterinario {
+    // Atributos de la clase MedicoVeterinario
+    private String nombre;
+    private String apellido;
+    private int edad;
+    private String especialidad;
+    private String sexo;
+
+    // Constructor para inicializar un objeto MedicoVeterinario
+    public MedicoVeterinario(String nombre, String apellido, int edad, String especialidad, String sexo) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.especialidad = especialidad;
+        this.sexo = sexo;
+    }
+    
+//////////METODO PARA MOSTRAR LOS DATOS DE LOS MEDICOS VETERINARIOS
+    public void mostrarDatos() {
+        System.out.println("============================:");
+        System.out.println("DATOS DEL MEDICO VETERINARIO:");
+        System.out.println("Nombre: " + nombre);
+        System.out.println("Apellido: " + apellido);
+        System.out.println("Edad: " + edad);
+        System.out.println("Especialidad: " + especialidad);
+        System.out.println("Sexo: " + sexo);
+        System.out.println("============================:");
+
+    }
+    
+    ///////////METODOS PARA ACCEDER A LOS ATRIBUTOS
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+}
+
+
+}
+
+
+
+
+
+	
+
